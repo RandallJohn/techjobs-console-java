@@ -70,17 +70,44 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
+        String uppercaseSearchValue = value.toUpperCase();
+
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
+            String aUpperValue = aValue.toUpperCase();
 
-            if (aValue.contains(value)) {
+            if (aUpperValue.contains(uppercaseSearchValue)) {
                 jobs.add(row);
             }
         }
 
+        return jobs;
+    }
+
+    public static ArrayList<HashMap<String, String>> findByValue(String searchValue){
+
+        loadData();
+
+        String upperSearchValue = searchValue.toUpperCase();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+            for (String k : row.keySet())  {
+                String keyValue = row.get(k);
+                String upperCaseKeyValue = keyValue.toUpperCase();
+                if (upperCaseKeyValue.contains(upperSearchValue)) {
+                   if (!jobs.contains(row)) {
+                       jobs.add(row);
+                   }
+                }
+
+            }
+
+        }
         return jobs;
     }
 
